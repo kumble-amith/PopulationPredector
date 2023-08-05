@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from . import user
 import numpy as np
+import geocoder
 
 # Create your views here.
 
@@ -19,7 +20,7 @@ def predectionResult(request):
     else:
         year_transformed = model.transform(np.array(year))
         predection = (model.reverse(model.predict(year_transformed)))
-        
-        return render(request,'predectionResult.html',{'year': year,'value':(predection)})
+        g = geocoder.ip('me')
+        return render(request,'predectionResult.html',{'year': year,'value':predection,'location':g.city})
     
     
